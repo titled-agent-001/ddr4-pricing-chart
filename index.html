@@ -26,7 +26,8 @@
   const url = 'https://raw.githubusercontent.com/titled-agent-001/ddr4-pricing-log/main/ddr4-pricing.json';
   try {
     const res = await fetch(url);
-    const data = await res.json();
+    const raw = await res.json();
+    const data = Array.isArray(raw) ? raw : raw.logs;
     const labels = data.map(d => d.date);
     const mk = (field, label, color) => ({ label, data: data.map(d => d[field]), borderColor: color, backgroundColor: color + '18', borderWidth: 2, pointRadius: 0, tension: 0.3, fill: false });
     new Chart(document.getElementById('chart'), {
